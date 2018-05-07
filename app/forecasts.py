@@ -11,22 +11,23 @@ import pandas as pd
 import numpy as np
 from app import retrieveMarkets as rm
 
-sys.path.append('/home/lechuza/Documents/CUNY/data_607/flask_work/crypto_flask')
-
 class Forecast(object):
-    def __init__(self,rma):
-        self.rma=rma
-        self.two_assets=['XMR','ETH']
+    def __init__(self):
+        self.rma=rm.RetrieveMarkets()
+        self.two_assets=['ETH','NEO']
     
     def runProgram(self):
-        results={}
+        results={'ETH':None,'NEO':None}
         for i in self.two_assets:
+            print('processing {} now'.format(i))
             df=self.prepareDF(i)
             fbprice=self.fbPredict(df)
-            results[i]=[fbprice]
+            results[i]=fbprice
+        return(results)
         
     def prepareDF(self,ticker):
         mro_df=self.rma.get250Day(ticker)
+        print('shape of first df:{}'.format(mro_df.shape))
         mro_df['hi_low_log']=mro_df.apply(lambda x: np.log(x['high']/x['low'])**2,axis=1)
 
         mro_df['mid']=mro_df.apply(lambda x: np.mean([x['high'],x['low']]),axis=1)
@@ -56,6 +57,7 @@ class Forecast(object):
         test15=aggd.apply(lambda x: x[8]/x[13],axis=1)
         test_df=pd.concat([test2,test5,test15],axis=1)
         var_df=pd.concat([aggd,test_df],axis=1)
+        print('we have made it as far as var_df with a shape {}'.format(var_df.shape))
         lista=[x for x in var_df.columns]
         lista[-3:]=['prop2','prop5','prop15']
         var_df.columns=lista
@@ -64,17 +66,18 @@ class Forecast(object):
         var_df['ln_diff']=var_df['mid_ln'].diff()
         var_df['std_price']=var_df['mid'].rolling(window=21).std()
         var_df['std_returns']=      var_df['returns'].rolling(window=21).std()
+        print('var_df ends with a shape {}'.format(var_df.shape))
         return(var_df)
         
         
     def fbPredict(self,var_df):
         fb_version=var_df.rename(columns={'time':'ds','mid':'y'})
-
+        print('fb alters the df to a shape {}'.format(fb_version.shape))
 #fb_version.dtypes
         ts_prophet=fbprophet.Prophet(changepoint_prior_scale=0.15)
         ts_prophet.fit(fb_version[['y','ds','vol_3day','vol_15day','prop2','prop5','prop15','returns']])
 
-        ts_forecast=ts_prophet.make_future_dataframe(periods=14,freq='D')
+        ts_forecast=ts_prophet.make_future_dataframe(periods=1,freq='D')
         ts_forecast=ts_prophet.predict(ts_forecast)
 
-        return(ts_forecast['yhat'][var_df.shape[0]])
+        return(ts_forecast['yhat'][0])

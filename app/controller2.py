@@ -11,6 +11,8 @@ from app.cryptoMenu import CryptoMenuForm
 from app import engageUser as eu
 from app import retrieveMarkets, tradeDeetsForm
 from app import coinHistoryForm
+from app.forecasts import Forecast
+import pandas as pd
 import numpy as np
 import os
 
@@ -19,6 +21,7 @@ eud=eu.Dialogue()
 @app.route('/')
 def landing(methods=['GET']):
     session['number']=0
+    session['predictions']=None
     return render_template('landing_page.html')
 
 @app.route('/main_menu',methods=['GET','POST'])
@@ -138,4 +141,9 @@ def renderBlotter():
 def renderPL():
     table=eud.engageUser('c')
     random_val=np.random.randint(low=1, high=10000, size=1)
-    return(render_template('portfolio_level.html',        html_table=table,random_val=random_val[0]))
+    if session['predictions']==None:
+        f=Forecast()
+        session['predictions']=f.runProgram()
+    predict_html=pd.DataFrame.from_dict({j:[k] for j,k in session['predictions'].items()}).to_html(index=False)
+    
+    return(render_template('portfolio_level.html',        html_table=table,predict_html=predict_html,random_val=random_val[0]))

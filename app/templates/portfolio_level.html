@@ -2,6 +2,8 @@
 <div>
 {% block content %}
 {{ html_table | safe }}
+<p> Predicted Prices: Next Day's close</p>
+{{ predict_html | safe }}
 <img src="/static/portfolio_level.png?value={{ random_val }}" width="820" height ="400" /></p>
 {% endblock %}
 </div>

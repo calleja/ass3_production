@@ -13,11 +13,13 @@ import numpy as np
 import datetime
 import matplotlib.pyplot as plt
 
+
 class Account:
     def __init__(self):
         self.coin_bal=1000000
         self.coin_bal_history=pd.Series()
         self.pl_history=pd.Series()
+        self.predict=None
         #will be a nested dictionary, the outermost key is the ticker and the value will be a dictionary of total shares, average price and possibly VWAP, realized p/l... ex: {ticker:{'notional':notaionValue,'direction':direction_string, etc...}}
         #TODO this cannot be a predefined dictionary... needs to be transformed to an empty dynamic dict
         ''' legacy
@@ -142,6 +144,7 @@ this function will then instantiate a tradeClass object that will QA the trade (
         #print('now calling conver2Df from the accounts class')
         
         #convert portfolio to pd.DataFrame and append the calculated cash_line
+            
         return(self.convert2Df(cash_line,sorted_list))
     
     
