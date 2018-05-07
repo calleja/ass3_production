@@ -1,0 +1,27 @@
+<html>
+    <head>
+      {% if title %}
+      <title>{{ title }} - Microblog</title>
+      {% else %}
+      <title>Welcome to CryptoBroker2000 </title>
+      {% endif %}
+    </head>
+    <body>
+        <div>broker: 
+		<!-- these are the paths specified in the app.routes on the controller/test py module -->
+		<a href="/">Home</a>
+		<a href="/main_menu">Main Menu</a>
+		</div>
+        <hr>
+		{% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </body>
+</html>

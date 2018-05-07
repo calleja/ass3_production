@@ -1,0 +1,20 @@
+{% extends "base_crypt.html" %}
+
+{% block content %}
+    <h1>Trade Menu</h1>
+    <form action="" method="post">
+        <p>
+		Provide trade parameters
+		</p>
+		<p>
+		<!-- "form" is a variable that we define in the render_template function in 'testing.py' -->
+            {{ form.tradeRadio() }}
+		</p>
+			{{ form.coinFreqString.label }}
+			{{ form.coinFreqString() }}
+        </p>
+        <p>{{ form.viewstats()}}  {{ form.submit() }}</p>
+		
+    </form>
+{% block page_content %} {% endblock %}
+{% endblock %}

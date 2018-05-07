@@ -1,0 +1,14 @@
+requests
+datetime
+numpy
+matplotlib
+pandas
+scipy
+cython
+pystan
+fbprophet
+pymongo
+scikit-learn
+tensorflow==1.5
+pillow h5py
+keras

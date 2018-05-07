@@ -1,0 +1,17 @@
+{% extends "base_crypt.html" %}
+
+{% block content %}
+    <h1>Make selection on asset to trade</h1>
+    <p>Please type the index number corresponding with the coin symbol.</p>
+    <form action="" method="post">
+    <p>{{ form.str_selection.label }} {{ form.str_selection() }}</p>
+    <p>{{ form.nexty() }}  {{ form.submit() }}</p>
+    
+    <div>
+    {% for row in menu %}
+    <p>{{ row.index }}    {{ row.Currency }}    {{ row.CurrencyLong }}</p>
+    {% endfor %}
+    </div>
+    
+{% endblock %}
+
