@@ -24,3 +24,20 @@ for i,k in g.items():
     print('{}{}'.format(i,k))
     
 pathy=os.getcwd()+'mama'
+
+
+import sys 
+sys.path.append('/home/lechuza/Documents/CUNY/data_607/ass3_production')
+from app import forecasts
+import pandas as pd
+
+f=forecasts.Forecast()
+g=f.runProgram()
+
+df=pd.DataFrame.from_dict({j:k for j,k in g.items()},orient='index')
+gh=df.applymap(lambda x:'%.6f'%(x))
+
+gh.dtypes
+
+
+predict_html=.to_html(index=False)

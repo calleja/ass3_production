@@ -27,8 +27,8 @@ class Forecast(object):
             df=self.prepareDF(i)
             fbprice=self.fbPredict(df)
             lstm_price=self.lstm(df)
-            results[i]['fb']=fbprice
-            results[i]['lstm']=lstm_price
+            results[i]['fb']='%.6f'%(fbprice)
+            results[i]['lstm']='%.6f'%(lstm_price)
         return(results)
         
     def prepareDF(self,ticker):

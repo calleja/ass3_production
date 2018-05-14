@@ -144,6 +144,6 @@ def renderPL():
     if session['predictions']==None:
         f=Forecast()
         session['predictions']=f.runProgram()
-    predict_html=pd.DataFrame.from_dict({j:[k] for j,k in session['predictions'].items()}).to_html(index=False)
+        predict_html=pd.DataFrame.from_dict({j:k for j,k in session['predictions'].items()},orient='index').to_html(index=False)
     
     return(render_template('portfolio_level.html',        html_table=table,predict_html=predict_html,random_val=random_val[0]))
