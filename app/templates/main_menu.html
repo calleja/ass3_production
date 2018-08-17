@@ -1,0 +1,16 @@
+{% extends "base_crypt.html" %}
+
+{% block content %}
+    <h1>Main Menu</h1>
+    <p>Please enter the Boro Block Lot on which to query</p>
+    <form action="" method="post">
+		<p>
+		<!-- "form" is a variable that we define in the render_template function in 'testing.py' -->
+            Boro: {{ form.boro() }}
+			Block {{ form.block() }}
+			Lot {{ form.lot() }}
+			</p>
+			{{form.submit()}}
+        </p>
+    </form>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "base_crypt.html" %}
+
+{% block content %}
+    <h1>What you entered</h1>
+    <form action="" method="post">
+		<p>
+		<!-- "form" is a variable that we define in the render_template function in 'testing.py' -->
+             <p>Boro: {{text['boro']}} </p>
+			 <p>Block: {{text['block']}} </p>
+			 <p>Lot: {{text['lot']}}</p>
+			 <p> Assessed Value Table <p>
+			 <p> {{av_table}} </p>
+        </p>
+	{{form.submit()}}
+    </form>
+{% endblock %}
